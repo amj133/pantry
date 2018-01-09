@@ -17,8 +17,15 @@ class Pantry
   end
 
   def add_to_shopping_list(recipe)
-    @shopping_list = @shopping_list.merge(recipe.ingredients)
-    # people_debts.merge!(activity_debt){|key, oldval, newval| oldval + newval}
+    @shopping_list = shopping_list.merge!(recipe.ingredients) do |key, oldval, newval|
+      oldval + newval
+    end
+  end
+
+  def print_shopping_list
+    shopping_list.map do |key, value|
+      "* #{key}: #{value}\n"
+    end.join.chomp
   end
 
 end
