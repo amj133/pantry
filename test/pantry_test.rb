@@ -85,4 +85,75 @@ class PantryTest < Minitest::Test
     assert_equal "* Cheese: 25\n* Flour: 20\n* Spaghetti Noodles: 10\n* Marinara Sauce: 10", pantry.print_shopping_list
   end
 
+  def test_can_add_recipes_to_cookbook
+    pantry = Pantry.new
+    recipe_1 = Recipe.new("Cheese Pizza")
+    recipe_2 = Recipe.new("Pickles")
+    recipe_3 = Recipe.new("Peanuts")
+
+    recipe_1.add_ingredient("Cheese", 20)
+    recipe_1.add_ingredient("Flour", 20)
+    pantry.add_to_cookbook(recipe_1)
+
+    assert_equal [recipe_1], pantry.cookbook
+
+    recipe_2.add_ingredient("Brine", 10)
+    recipe_2.add_ingredient("Cucumbers", 30)
+    pantry.add_to_cookbook(recipe_2)
+
+    assert_equal [recipe_1, recipe_2], pantry.cookbook
+
+    recipe_3.add_ingredient("Raw nuts", 10)
+    recipe_3.add_ingredient("Salt", 10)
+    pantry.add_to_cookbook(recipe_3)
+
+    assert_equal [recipe_1, recipe_2, recipe_3], pantry.cookbook
+  end
+
+  def test_can_add_recipes_to_cookbook
+    pantry = Pantry.new
+    recipe_1 = Recipe.new("Cheese Pizza")
+    recipe_2 = Recipe.new("Pickles")
+    recipe_3 = Recipe.new("Peanuts")
+
+    recipe_1.add_ingredient("Cheese", 20)
+    recipe_1.add_ingredient("Flour", 20)
+    pantry.add_to_cookbook(recipe_1)
+
+    assert_equal [recipe_1], pantry.cookbook
+
+    recipe_2.add_ingredient("Brine", 10)
+    recipe_2.add_ingredient("Cucumbers", 30)
+    pantry.add_to_cookbook(recipe_2)
+
+    assert_equal [recipe_1, recipe_2], pantry.cookbook
+
+    recipe_3.add_ingredient("Raw nuts", 10)
+    recipe_3.add_ingredient("Salt", 10)
+    pantry.add_to_cookbook(recipe_3)
+
+    assert_equal [recipe_1, recipe_2, recipe_3], pantry.cookbook
+  end
+
+  def test_what_can_i_make
+    pantry = Pantry.new
+    recipe_1 = Recipe.new("Cheese Pizza")
+    recipe_2 = Recipe.new("Pickles")
+    recipe_3 = Recipe.new("Peanuts")
+
+    recipe_1.add_ingredient("Cheese", 20)
+    recipe_1.add_ingredient("Flour", 20)
+    pantry.add_to_cookbook(recipe_1)
+
+    recipe_2.add_ingredient("Brine", 10)
+    recipe_2.add_ingredient("Cucumbers", 30)
+    pantry.add_to_cookbook(recipe_2)
+
+    recipe_3.add_ingredient("Raw nuts", 10)
+    recipe_3.add_ingredient("Salt", 10)
+    pantry.add_to_cookbook(recipe_3)
+
+    assert_equal ["Pickles", "Peanuts"], pantry.what_can_i_make
+  end
+
 end
