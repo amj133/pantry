@@ -1,4 +1,5 @@
 require 'pry'
+require 'bigdecimal'
 
 class Pantry
   attr_reader :stock, :shopping_list, :cookbook
@@ -51,6 +52,28 @@ class Pantry
       can_make << recipe_name if availability
     end
     can_make
+  end
+
+  def ingredient_amounts_for_each_recipe
+    how_many = {}
+    cookbook.each do |recipe|
+      how_many[recipe.name] = recipe.ingredients.map do |item, amount|
+        BigDecimal.new(stock[item]) / amount
+      end
+    end
+    how_many
+  end
+
+  def how_many_can_i_make
+    how_many_can_make = {}
+    ingredient_amounts_for_each_recipe.each do |recipe_name, amount_array|
+      if (amount_array.any? {|amount| amount < 1})
+        how_many_can_make[recipe_name] = nil
+      else
+      how_many_can_make[recipe_name] = amount_array.min.to_i
+      end 
+    end
+    how_many_can_make.compact
   end
 
 end
