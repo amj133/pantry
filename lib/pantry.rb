@@ -36,7 +36,9 @@ class Pantry
   end
 
   def what_can_i_make
-
+    cookbook.map do |recipe|
+      recipe.ingredients.all? do |ingredient|
+        stock.include?
   end
 
 end
