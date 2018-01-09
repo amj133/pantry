@@ -35,10 +35,22 @@ class Pantry
     cookbook << recipe
   end
 
+  def ingredients_available?
+    availability = {}
+    cookbook.each do |recipe|
+      availability[recipe.name] = recipe.ingredients.all? do |ingredient, amount|
+        amount <= stock[ingredient]
+      end
+    end
+    availability
+  end
+
   def what_can_i_make
-    cookbook.map do |recipe|
-      recipe.ingredients.all? do |ingredient|
-        stock.include?
+    can_make = []
+    ingredients_available?.each do |recipe_name, availability|
+      can_make << recipe_name if availability
+    end
+    can_make
   end
 
 end
