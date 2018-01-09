@@ -53,7 +53,7 @@ class PantryTest < Minitest::Test
     assert_equal({"Flour" => 20, "Cheese" => 20}, pantry.shopping_list)
   end
 
-  def test_can_add_multiple_recipes_to_shopping_list
+  def test_can_add_multiple_recipe_ingredients_to_shopping_list
     pantry = Pantry.new
     recipe_1 = Recipe.new("Cheese Pizza")
     recipe_2 = Recipe.new("Spaghetti")
@@ -83,31 +83,6 @@ class PantryTest < Minitest::Test
     pantry.add_to_shopping_list(recipe_2)
 
     assert_equal "* Cheese: 25\n* Flour: 20\n* Spaghetti Noodles: 10\n* Marinara Sauce: 10", pantry.print_shopping_list
-  end
-
-  def test_can_add_recipes_to_cookbook
-    pantry = Pantry.new
-    recipe_1 = Recipe.new("Cheese Pizza")
-    recipe_2 = Recipe.new("Pickles")
-    recipe_3 = Recipe.new("Peanuts")
-
-    recipe_1.add_ingredient("Cheese", 20)
-    recipe_1.add_ingredient("Flour", 20)
-    pantry.add_to_cookbook(recipe_1)
-
-    assert_equal [recipe_1], pantry.cookbook
-
-    recipe_2.add_ingredient("Brine", 10)
-    recipe_2.add_ingredient("Cucumbers", 30)
-    pantry.add_to_cookbook(recipe_2)
-
-    assert_equal [recipe_1, recipe_2], pantry.cookbook
-
-    recipe_3.add_ingredient("Raw nuts", 10)
-    recipe_3.add_ingredient("Salt", 10)
-    pantry.add_to_cookbook(recipe_3)
-
-    assert_equal [recipe_1, recipe_2, recipe_3], pantry.cookbook
   end
 
   def test_can_add_recipes_to_cookbook
@@ -193,7 +168,7 @@ class PantryTest < Minitest::Test
     assert_equal ["Pickles", "Peanuts"], pantry.what_can_i_make
   end
 
-  def test_how_many_for_each_recipe_returns_hash_with_stock_amount_div_by_recipe_amount_as_values
+  def test_ingredient_amounts_for_each_recipe_returns_hash_with_stock_amount_div_by_recipe_amount_as_values
     pantry = Pantry.new
     recipe_1 = Recipe.new("Cheese Pizza")
     recipe_2 = Recipe.new("Pickles")
@@ -219,8 +194,8 @@ class PantryTest < Minitest::Test
     pantry.restock("Salt", 20)
 
     assert_equal({"Cheese Pizza" => [0.5, 1.0],
-                  "Pickles" => [4.0, 4.0],
-                  "Peanuts" => [2.0, 2.0]}, pantry.ingredient_amounts_for_each_recipe)
+                  "Pickles"      => [4.0, 4.0],
+                  "Peanuts"      => [2.0, 2.0]}, pantry.ingredient_amounts_for_each_recipe)
   end
 
   def test_how_many_can_i_make
@@ -248,8 +223,8 @@ class PantryTest < Minitest::Test
     pantry.restock("Raw nuts", 20)
     pantry.restock("Salt", 20)
 
-    assert_equal({"Pickles"      => 4,
-                  "Peanuts"      => 2}, pantry.how_many_can_i_make)
+    assert_equal({"Pickles" => 4,
+                  "Peanuts" => 2}, pantry.how_many_can_i_make)
   end
 
 end
